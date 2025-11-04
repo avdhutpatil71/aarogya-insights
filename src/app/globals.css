@@ -1,0 +1,959 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+}
+
+/* Typography Scale - Rank Method */
+@layer base {
+  :root {
+    /* Typography Scale - Modular Scale (1.250 - Major Third) */
+    --text-xs: 0.75rem;      /* 12px - Small labels, captions */
+    --text-sm: 0.875rem;     /* 14px - Body small, metadata */
+    --text-base: 1rem;       /* 16px - Body text, paragraphs */
+    --text-lg: 1.125rem;     /* 18px - Large body, intro text */
+    --text-xl: 1.25rem;      /* 20px - Small headings */
+    --text-2xl: 1.5rem;      /* 24px - Medium headings */
+    --text-3xl: 1.875rem;    /* 30px - Large headings */
+    --text-4xl: 2.25rem;     /* 36px - Extra large headings */
+    --text-5xl: 3rem;        /* 48px - Display headings */
+    --text-6xl: 3.75rem;     /* 60px - Hero headings */
+    
+    /* Line Heights - Optimized for readability */
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+    
+    /* Font Weights */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+    
+    /* Letter Spacing */
+    --tracking-tight: -0.025em;
+    --tracking-normal: 0em;
+    --tracking-wide: 0.025em;
+    --tracking-wider: 0.05em;
+    --tracking-widest: 0.1em;
+  }
+
+  /* Typography Classes */
+  .text-display-1 {
+    font-size: var(--text-6xl);
+    line-height: var(--leading-tight);
+    font-weight: var(--font-extrabold);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .text-display-2 {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-tight);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .text-heading-1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-snug);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .text-heading-2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-snug);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .text-heading-3 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .text-heading-4 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .text-body-large {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    font-weight: var(--font-normal);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .text-body {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-normal);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .text-body-small {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-normal);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .text-caption {
+    font-size: var(--text-xs);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .text-label {
+    font-size: var(--text-xs);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+
+  /* Responsive Typography */
+  @media (max-width: 768px) {
+    .text-display-1 {
+      font-size: var(--text-4xl);
+    }
+    
+    .text-display-2 {
+      font-size: var(--text-3xl);
+    }
+    
+    .text-heading-1 {
+      font-size: var(--text-3xl);
+    }
+    
+    .text-heading-2 {
+      font-size: var(--text-2xl);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .text-display-1 {
+      font-size: var(--text-3xl);
+    }
+    
+    .text-display-2 {
+      font-size: var(--text-2xl);
+    }
+    
+    .text-heading-1 {
+      font-size: var(--text-2xl);
+    }
+    
+    .text-heading-2 {
+      font-size: var(--text-xl);
+    }
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  
+  /* Aarogya Aadhar Consistent Color Scheme */
+  --primary-color: #5271FF;
+  --primary-dark: #243561;
+  --primary-light: #E8EBFF;
+  --primary-accent: #144EED;
+  --primary-accent-light: #4584E9;
+  --primary-blue: #5578FF;  /* Blue for section headings */
+  
+  --secondary-color: #007bff;
+  --secondary-dark: #0056b3;
+  --secondary-light: #e3f2fd;
+  
+  --accent-orange: #ff6b35;
+  --accent-green: #28a745;
+  
+  --text-primary: #243561;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  
+  --border-light: #e9ecef;
+  --border-medium: #dee2e6;
+  --background-light: #f8f9fa;
+  
+  /* Typography Scale - Professional Healthcare */
+  --text-display-xl: 72px;
+  --text-display-lg: 60px;
+  --text-display-md: 48px;
+  
+  --text-h1: 48px;
+  --text-h1-md: 40px;
+  --text-h1-sm: 36px;
+  
+  --text-h2: 36px;
+  --text-h2-md: 32px;
+  --text-h2-sm: 28px;
+  
+  --text-h3: 28px;
+  --text-h3-md: 24px;
+  --text-h3-sm: 20px;
+  
+  --text-h4: 20px;
+  --text-h4-md: 18px;
+  
+  --text-body-lg: 18px;
+  --text-body: 16px;
+  --text-body-sm: 14px;
+  
+  --text-label: 14px;
+  --text-caption: 12px;
+  --text-xs: 11px;
+  
+  /* Line Heights */
+  --leading-tight: 1.2;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Rank Method Typography Scale Implementation */
+/* This ensures consistent, professional hierarchy across all pages */
+
+/* Display - Hero/Landing Page Headings */
+h1.display-heading,
+.display-heading {
+  font-size: var(--text-display-lg); /* 60px */
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  font-family: var(--font-poppins);
+}
+
+/* H1 - Main Page Titles */
+h1, .h1 {
+  font-size: var(--text-h1); /* 48px */
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  font-family: var(--font-poppins);
+}
+
+/* H2 - Section Titles */
+h2, .h2 {
+  font-size: 42px;
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  font-family: var(--font-poppins);
+}
+
+/* H3 - Subsection Titles */
+h3, .h3 {
+  font-size: var(--text-h3); /* 28px */
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  font-family: var(--font-poppins);
+}
+
+/* H4 - Card/Component Titles */
+h4, .h4 {
+  font-size: var(--text-h4); /* 20px */
+  font-weight: 600;
+  line-height: var(--leading-normal);
+  font-family: var(--font-poppins);
+}
+
+/* Body Text */
+p, .body-text {
+  font-size: var(--text-body); /* 16px */
+  line-height: var(--leading-normal);
+  font-weight: 400;
+}
+
+/* Large Body Text */
+.body-large {
+  font-size: var(--text-body-lg); /* 18px */
+  line-height: var(--leading-relaxed);
+}
+
+/* Small Body Text */
+.body-small {
+  font-size: var(--text-body-sm); /* 14px */
+  line-height: var(--leading-normal);
+}
+
+/* Caption/Small Text */
+.caption,
+small {
+  font-size: var(--text-caption); /* 12px */
+  line-height: var(--leading-normal);
+  font-weight: 500;
+}
+
+/* Label Text */
+.label {
+  font-size: var(--text-label); /* 14px */
+  font-weight: 600;
+  line-height: var(--leading-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Responsive Typography for Mobile */
+@media (max-width: 768px) {
+  h1, .h1 {
+    font-size: var(--text-h1-md); /* 40px */
+  }
+  
+  h2, .h2 {
+    font-size: 36px;
+  }
+  
+  h3, .h3 {
+    font-size: var(--text-h3-md); /* 24px */
+  }
+  
+  h4, .h4 {
+    font-size: var(--text-h4-md); /* 18px */
+  }
+  
+  .display-heading {
+    font-size: var(--text-display-md); /* 48px */
+  }
+}
+
+@media (max-width: 480px) {
+  h1, .h1 {
+    font-size: var(--text-h1-sm); /* 36px */
+  }
+  
+  h2, .h2 {
+    font-size: 32px;
+  }
+  
+  h3, .h3 {
+    font-size: var(--text-h3-sm); /* 20px */
+  }
+  
+  .display-heading {
+    font-size: var(--text-h1); /* 48px */
+  }
+}
+
+/* Typography Utility Classes - Rank Method */
+
+/* Display Sizes - Hero/Banner Text */
+.text-display-xl {
+  font-size: var(--text-display-xl);
+  line-height: var(--leading-tight);
+  font-weight: 700;
+}
+
+.text-display-lg {
+  font-size: var(--text-display-lg);
+  line-height: var(--leading-tight);
+  font-weight: 700;
+}
+
+.text-display-md {
+  font-size: var(--text-display-md);
+  line-height: var(--leading-tight);
+  font-weight: 700;
+}
+
+/* Heading 1 - Main Page Titles */
+.text-heading-1 {
+  font-size: var(--text-h1);
+  line-height: var(--leading-tight);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .text-heading-1 {
+    font-size: var(--text-h1-md);
+  }
+}
+
+/* Heading 2 - Section Titles */
+.text-heading-2 {
+  font-size: var(--text-h2);
+  line-height: var(--leading-snug);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .text-heading-2 {
+    font-size: var(--text-h2-md);
+  }
+}
+
+/* Heading 3 - Subsection Titles */
+.text-heading-3 {
+  font-size: var(--text-h3);
+  line-height: var(--leading-snug);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .text-heading-3 {
+    font-size: var(--text-h3-md);
+  }
+}
+
+/* Heading 4 - Card/Component Titles */
+.text-heading-4 {
+  font-size: var(--text-h4);
+  line-height: var(--leading-snug);
+  font-weight: 600;
+}
+
+/* Body Text Sizes */
+.text-body-large {
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-relaxed);
+}
+
+.text-body {
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+}
+
+.text-body-small {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-normal);
+}
+
+/* Label & Meta Text */
+.text-label {
+  font-size: var(--text-label);
+  line-height: var(--leading-normal);
+  font-weight: 500;
+}
+
+.text-caption {
+  font-size: var(--text-caption);
+  line-height: var(--leading-normal);
+}
+
+.text-meta {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Button Text Sizes */
+.text-btn-large {
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.text-btn {
+  font-size: var(--text-body);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.text-btn-small {
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Sliding Animation for Featured Blogs */
+@keyframes slideRightToLeft {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-slide-right-to-left {
+  animation: slideRightToLeft 20s linear infinite;
+}
+
+/* Pause animation on hover */
+.animate-slide-right-to-left:hover {
+  animation-play-state: paused;
+}
+
+/* Smooth transitions for blog cards */
+.blog-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Enhanced Visual Hierarchy */
+h1, .h1 { 
+  font-size: var(--text-h1); 
+  font-weight: 700; 
+  line-height: var(--leading-tight); 
+}
+
+h2, .h2 { 
+  font-size: var(--text-h2); 
+  font-weight: 700; 
+  line-height: var(--leading-snug); 
+}
+
+h3, .h3 { 
+  font-size: var(--text-h3); 
+  font-weight: 600; 
+  line-height: var(--leading-snug); 
+}
+
+h4, .h4 { 
+  font-size: var(--text-h4); 
+  font-weight: 600; 
+  line-height: var(--leading-snug); 
+}
+
+p { 
+  font-size: var(--text-body); 
+  line-height: var(--leading-normal); 
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .text-display-xl { font-size: var(--text-display-lg); }
+  .text-display-lg { font-size: var(--text-display-md); }
+  .text-display-md { font-size: var(--text-h1); }
+  h1, .h1 { font-size: var(--text-h1-md); }
+  h2, .h2 { font-size: var(--text-h2-md); }
+  h3, .h3 { font-size: var(--text-h3-md); }
+}
+
+/* Aarogya Aadhar Healthcare Theme Styles */
+
+/* Healthcare Navbar Styles */
+.healthcare-navbar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.healthcare-search {
+  background: #ffffff;
+  border: 2px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: var(--text-body);
+  transition: border-color 0.3s ease;
+}
+
+.healthcare-search:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px var(--primary-blue-light);
+}
+
+.healthcare-btn-primary {
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: var(--text-body);
+  transition: background-color 0.3s ease;
+}
+
+.healthcare-btn-primary:hover {
+  background: var(--primary-blue-dark);
+}
+
+.healthcare-btn-secondary {
+  background: transparent;
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: var(--text-body);
+  transition: all 0.3s ease;
+}
+
+.healthcare-btn-secondary:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+/* Form Input Styles */
+.healthcare-input {
+  background: #ffffff;
+  border: 2px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease;
+}
+
+.healthcare-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px var(--primary-blue-light);
+}
+
+.healthcare-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Card Styles */
+.healthcare-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.healthcare-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Text Colors */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-blue { color: var(--primary-blue); }
+.text-orange { color: var(--secondary-orange); }
+.text-green { color: var(--accent-green); }
+
+/* Background Colors */
+.bg-primary { background-color: var(--primary-blue); }
+.bg-primary-light { background-color: var(--primary-blue-light); }
+.bg-light { background-color: var(--background-light); }
+
+/* Border Colors */
+.border-primary { border-color: var(--primary-blue); }
+.border-light { border-color: var(--border-light); }
+.border-medium { border-color: var(--border-medium); }
+
+/* Professional Healthcare Layout */
+.healthcare-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.healthcare-section {
+  padding: 60px 0;
+}
+
+.healthcare-section-sm {
+  padding: 40px 0;
+}
+
+/* Healthcare Navigation Dropdown */
+.healthcare-dropdown {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  min-width: 200px;
+}
+
+.healthcare-dropdown-item {
+  padding: 12px 20px;
+  color: var(--text-primary);
+  font-size: var(--text-body);
+  transition: background-color 0.2s ease;
+}
+
+.healthcare-dropdown-item:hover {
+  background-color: var(--background-light);
+  color: var(--primary-blue);
+}
+
+/* Healthcare Status Badges */
+.healthcare-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.healthcare-badge-primary {
+  background-color: var(--primary-blue-light);
+  color: var(--primary-blue);
+}
+
+.healthcare-badge-success {
+  background-color: #d4edda;
+  color: var(--accent-green);
+}
+
+.healthcare-badge-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.healthcare-badge-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Custom Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #2563eb, #1e40af);
+}
+
+/* Focus Styles */
+.focus-ring {
+  transition: box-shadow 0.2s ease;
+}
+
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Loading States */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Interactive Elements */
+.interactive {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive:hover {
+  transform: translateY(-2px);
+}
+
+.interactive:active {
+  transform: translateY(0);
+}
+
+/* Glass Morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
