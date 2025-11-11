@@ -22,6 +22,12 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [email, setEmail] = useState('')       
+  const [subLoading, setSubLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [activeCategory, setActiveCategory] = useState('All');
+
 
   // Enhanced function to calculate blog ranking score
   const calculateBlogScore = (blog) => {
@@ -138,6 +144,44 @@ export default function Home() {
     handleSearch(query)
   }
 
+      // Auto change between first 3 blogs cards
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); 
+      }, 3000); // 
+      return () => clearInterval(interval);
+    }, []);
+
+    const handleSubscribeSubmit = async (e) => {
+      e.preventDefault();
+      setSubLoading(true);
+      setSuccess(false);
+
+      // Basic email validation
+      if (!email || !email.includes("@")) {
+        alert("⚠️ Please enter a valid email address.");
+        setSubLoading(false);
+        return;
+      }
+
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        
+        setEmail("");
+        setSuccess(true);
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Something went wrong. Please try again.");
+      } finally {
+        setSubLoading(false);
+      }
+    };
+
+    const filteredBlogs = activeCategory === 'All'
+  ? blogs
+  : blogs.filter(blog => blog.category?.toLowerCase() === activeCategory.toLowerCase());
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -171,147 +215,167 @@ export default function Home() {
               Stay informed with expert analysis, latest research, and practical healthcare guidance from trusted professionals.
             </p>
             
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto animate-fade-in-up relative z-50" style={{animationDelay: '0.4s'}}>
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg className="w-5 h-5 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{color: 'var(--primary-color)'}}>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </div>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={handleSearchInputChange}
-                    placeholder="Search articles, topics, or keywords..."
-                    className="w-full pl-12 pr-4 py-4 text-lg bg-white rounded-2xl shadow-lg border-0 focus:outline-none transition-all duration-300 hover:shadow-xl"
-                    style={{'--tw-ring-color': 'rgba(82, 113, 255, 0.2)'}}
-                  />
-                  <button 
-                    type="submit"
-                    className="absolute right-2 top-2 bottom-2 px-6 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 group/btn"
-                    style={{background: 'linear-gradient(to right, var(--primary-color), var(--primary-dark))'}}
+          {/* Search Bar */}
+          <div
+            className="max-w-2xl mx-auto animate-fade-in-up relative z-50"
+            style={{ animationDelay: "0.4s" }}
+          >
+            <form
+              onSubmit={handleSearchSubmit}
+              className="relative group transition-all duration-500"
+            >
+              {/* Glassy Search Bar */}
+              <div
+                className="relative flex items-center bg-white/30 backdrop-blur-xl border border-white/40 rounded-3xl shadow-lg transition-all duration-300 focus-within:bg-white/50 focus-within:shadow-2xl"
+              >
+                {/* Search Icon */}
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                  <svg
+                    className="w-6 h-6 text-blue-700 group-focus-within:scale-110 transition-transform duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <span className="group-hover/btn:animate-pulse">Search</span>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
+
+                {/* Input Field */}
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchInputChange}
+                  placeholder="Search healthcare insights, articles, or experts..."
+                  className="w-full pl-14 pr-32 py-4 text-lg bg-transparent text-gray-900 placeholder-gray-600 focus:outline-none transition-all duration-300"
+                />
+
+                {/* Submit Button */}
+                              <button
+                type="submit"
+                className="absolute right-2 top-2 bottom-2 px-8 text-white font-semibold rounded-2xl bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 shadow-md shadow-blue-500/30  hover:shadow-xl hover:shadow-blue-600/40 hover:from-blue-700 hover:via-blue-800 hover:to-purple-800 
+                          transform hover:scale-105 active:scale-95
+                          transition-all duration-300 ease-in-out"
+              >
+                <span className="tracking-wide">Search</span>
+              </button>
+
+              </div>
+
+              {/* Glow Effect Border */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/40 to-purple-500/40 opacity-0 group-focus-within:opacity-100 blur-2xl transition-opacity duration-500 -z-10"></div>
+
+              {/* Search Results Dropdown */}
+               {/* Search Results Dropdown */}
+             {showSearchResults && searchResults.length > 0 && (
+            <div
+              className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-gray-200 max-h-96 overflow-y-auto z-[60] transition-all duration-300 pb-6 custom-scroll"
+            >
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 rounded-t-2xl border-b border-gray-100">
+                  <div className="text-sm font-semibold text-blue-700">
+                    Found {searchResults.length} {searchResults.length === 1 ? "result" : "results"}
+                  </div>
+                  <button
+                    onClick={() => {
+                      setShowSearchResults(false);
+                      setSearchQuery("");
+                    }}
+                    className="text-gray-500 hover:text-blue-700 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                   </button>
                 </div>
-                
-                {/* Search Results Dropdown */}
-                {showSearchResults && searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border-2 border-[#4584E9]/20 max-h-96 overflow-y-auto z-[60]">
-                    <div className="p-4">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="text-sm font-semibold" style={{color: 'var(--primary-accent)'}}>
-                          Found {searchResults.length} {searchResults.length === 1 ? 'result' : 'results'}
-                        </div>
-                        <button
-                          onClick={() => {
-                            setShowSearchResults(false)
-                            setSearchQuery('')
-                          }}
-                          className="text-gray-400 hover:text-[#144EED] transition-colors"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div className="space-y-3">
-                        {searchResults.slice(0, 5).map((blog) => (
-                          <Link 
-                            key={blog.id} 
-                            href={`/blogs/${createSlug(blog.title)}-${blog.id}`}
-                            className="block p-4 rounded-xl hover:bg-[#4584E9]/5 border-2 border-transparent hover:border-[#4584E9]/30 transition-all duration-300 group"
-                            onClick={() => {
-                              setShowSearchResults(false)
-                              setSearchQuery('')
-                            }}
-                          >
-                            <div className="flex items-start space-x-4">
-                              {blog.featuredImage && (
-                                <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                                  <Image
-                                    src={blog.featuredImage}
-                                    alt={blog.title}
-                                    width={80}
-                                    height={80}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                  />
-                                </div>
-                              )}
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-start justify-between mb-2">
-                                  <h4 className="font-bold text-lg text-gray-900 group-hover:text-[#144EED] transition-colors duration-300 line-clamp-2 pr-2">
-                                    {blog.title}
-                                  </h4>
-                                  {blog.category && (
-                                    <span className="text-xs px-3 py-1 bg-[#4584E9]/10 text-[#144EED] rounded-full font-semibold whitespace-nowrap flex-shrink-0">
-                                      {blog.category}
-                                    </span>
-                                  )}
-                                </div>
-                                <p className="text-sm text-gray-600 mt-2 line-clamp-2 leading-relaxed">
-                                  {blog.excerpt || blog.content.substring(0, 150) + '...'}
-                                </p>
-                                {blog.author && (
-                                  <div className="flex items-center mt-3 space-x-2">
-                                    <div className="w-6 h-6 bg-[#144EED] rounded-full flex items-center justify-center">
-                                      <span className="text-white text-xs font-bold">
-                                        {(blog.author?.name || 'A').charAt(0).toUpperCase()}
-                                      </span>
-                                    </div>
-                                    <span className="text-xs text-gray-500 font-medium">
-                                      {blog.author?.name || 'Admin'}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                      {searchResults.length > 5 && (
-                        <div className="mt-4 pt-4 border-t-2 border-[#4584E9]/10 text-center">
-                          <button
-                            onClick={() => {
-                              setShowSearchResults(false)
-                            }}
-                            className="px-6 py-2 bg-[#144EED] text-white rounded-xl font-semibold hover:bg-[#4584E9] transition-all duration-300 hover:shadow-lg transform hover:scale-105"
-                          >
-                            View all {searchResults.length} results
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
 
-                {/* No Results Message */}
-                {showSearchResults && searchResults.length === 0 && searchQuery.trim() !== '' && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border-2 border-[#4584E9]/20 z-[60]">
-                    <div className="p-12 text-center">
-                      <div className="w-20 h-20 bg-[#4584E9]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-10 h-10 text-[#144EED]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                <div className="space-y-3">
+                  {searchResults.map((blog, index) => (
+                    <Link
+                      key={blog.id}
+                      href={`/blogs/${createSlug(blog.title)}-${blog.id}`}
+                      className={`block p-4 rounded-xl hover:bg-blue-50 border border-transparent hover:border-blue-200 transition-all duration-300 group ${index === searchResults.length - 1 ? "mb-6" : ""}`}
+                      onClick={() => {
+                        setShowSearchResults(false);
+                        setSearchQuery("");
+                      }}
+                    >
+                      <div className="flex items-start space-x-4">
+                        {blog.featuredImage && (
+                          <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-md group-hover:shadow-xl transition-all duration-500">
+                            <Image
+                              src={blog.featuredImage}
+                              alt={blog.title}
+                              width={80}
+                              height={80}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between mb-2">
+                            <h4 className="font-bold text-lg text-gray-900 group-hover:text-blue-700 transition-colors duration-300 line-clamp-2 pr-2">
+                              {blog.title}
+                            </h4>
+                            {blog.category && (
+                              <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-semibold whitespace-nowrap flex-shrink-0">
+                                {blog.category}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-gray-700 mt-2 line-clamp-2 leading-relaxed">
+                            {blog.excerpt || blog.content.substring(0, 150) + "..."}
+                          </p>
+                          {blog.author && (
+                            <div className="flex items-center mt-3 space-x-2">
+                              <div className="w-6 h-6 bg-blue-700 rounded-full flex items-center justify-center">
+                                <span className="text-white text-xs font-bold">
+                                  {(blog.author?.name || "A").charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                              <span className="text-xs text-gray-500 font-medium">
+                                {blog.author?.name || "Admin"}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <h3 className="text-2xl font-bold text-[#144EED] mb-3">No results found</h3>
-                      <p className="text-gray-600 text-lg mb-6">Try searching with different keywords or browse our articles below.</p>
-                      <button
-                        onClick={() => {
-                          setShowSearchResults(false)
-                          setSearchQuery('')
-                        }}
-                        className="px-6 py-2 bg-[#144EED] text-white rounded-xl font-semibold hover:bg-[#4584E9] transition-all duration-300 hover:shadow-lg transform hover:scale-105"
-                      >
-                        Clear Search
-                      </button>
-                    </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+
+              {/* No Results */}
+              {showSearchResults &&
+                searchResults.length === 0 &&
+                searchQuery.trim() !== "" && (
+                  <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-gray-200 z-[60] p-10 text-center">
+                    <h3 className="text-2xl font-bold text-blue-700 mb-3">
+                      No results found
+                    </h3>
+                    <p className="text-gray-600 mb-6">
+                      Try searching with different keywords or explore featured articles.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setShowSearchResults(false);
+                        setSearchQuery("");
+                      }}
+                      className="px-6 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300"
+                    >
+                      Clear Search
+                    </button>
                   </div>
                 )}
-              </form>
-            </div>
+            </form>
+          </div>
           </div>
           
           {/* Quick Stats */}
@@ -333,6 +397,75 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Category Filter Bar (centered in middle) */}
+      <section className="relative flex items-center justify-center py-20 overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="absolute top-0 left-0 w-full h-full"
+            style={{
+              background:
+                "linear-gradient(to bottom right, var(--primary-color), var(--primary-dark))",
+            }}
+          ></div>
+        </div>
+
+        {/* Floating Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute top-20 left-10 w-20 h-20 rounded-full animate-pulse"
+            style={{ backgroundColor: "rgba(82, 113, 255, 0.08)" }}
+          ></div>
+          <div
+            className="absolute top-40 right-20 w-16 h-16 rounded-full animate-bounce"
+            style={{
+              backgroundColor: "rgba(82, 113, 255, 0.12)",
+              animationDelay: "1s",
+            }}
+          ></div>
+          <div
+            className="absolute bottom-20 left-1/4 w-12 h-12 rounded-full animate-pulse"
+            style={{
+              backgroundColor: "rgba(82, 113, 255, 0.15)",
+              animationDelay: "2s",
+            }}
+          ></div>
+          <div
+            className="absolute bottom-40 right-1/3 w-24 h-24 rounded-full animate-bounce"
+            style={{
+              backgroundColor: "rgba(82, 113, 255, 0.08)",
+              animationDelay: "0.5s",
+            }}
+          ></div>
+        </div>
+
+        {/* Category Filter Box */}
+        <div className="relative bg-white/30 backdrop-blur-md border border-white/20 shadow-xl rounded-3xl px-8 py-8 max-w-4xl mx-auto z-10">
+          <h2
+            className="text-center text-3xl font-bold text-gray-800 mb-6"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
+            Explore by Category
+          </h2>
+          <div className="flex flex-wrap justify-center items-center gap-4">
+            {["All", "Wellness", "Nutrition", "Mental Health", "Technology", "Research"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-6 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
+                  activeCategory === cat
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg scale-105"
+                    : "bg-white/60 backdrop-blur-md text-gray-700 hover:bg-white hover:shadow"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* Featured Story Section */}
       {loading ? (
@@ -381,113 +514,126 @@ export default function Home() {
           </div>
         </section>
       ) : featuredBlogs.length > 0 ? (
-        <section className="py-12 bg-white relative overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600 to-blue-800"></div>
-          </div>
-          
-          <div className="max-w-7xl mx-auto px-4 relative z-0">
-              {featuredBlogs.map((blog) => (
-                <Link key={blog.id} href={`/blogs/${createSlug(blog.title)}-${blog.id}`}>
-                <div className="group">
-                  {/* Featured Badge */}
-                  <div className="flex items-center justify-center mb-8">
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-full shadow-lg flex items-center transform hover:scale-105 transition-all duration-300">
-                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                      </svg>
-                      <span className="font-semibold">Featured Story</span>
-                    </div>
+       <section className="py-16 bg-gradient-to-b from-white to-blue-50 relative overflow-hidden">
+    {/* 💫 Floating Background Animation */}
+    <div className="absolute inset-0 opacity-10">
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600 to-blue-800"></div>
+    </div>
+
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div
+        className="absolute top-20 left-10 w-20 h-20 rounded-full animate-pulse"
+        style={{ backgroundColor: "rgba(82, 113, 255, 0.08)" }}
+      ></div>
+      <div
+        className="absolute top-40 right-20 w-16 h-16 rounded-full animate-bounce"
+        style={{
+          backgroundColor: "rgba(82, 113, 255, 0.12)",
+          animationDelay: "1s",
+        }}
+      ></div>
+      <div
+        className="absolute bottom-20 left-1/4 w-12 h-12 rounded-full animate-pulse"
+        style={{
+          backgroundColor: "rgba(82, 113, 255, 0.15)",
+          animationDelay: "2s",
+        }}
+      ></div>
+      <div
+        className="absolute bottom-40 right-1/3 w-24 h-24 rounded-full animate-bounce"
+        style={{
+          backgroundColor: "rgba(82, 113, 255, 0.08)",
+          animationDelay: "0.5s",
+        }}
+      ></div>
+    </div>
+      {/* Featured Badge */}
+        <div className="flex items-center justify-center mb-8">
+          <div className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 
+               text-white px-8 py-3 rounded-full shadow-lg 
+               flex items-center gap-2 
+               backdrop-blur-md border border-white/20
+               transition-all duration-300 ease-in-out 
+               hover:scale-105 hover:shadow-blue-500/40 group">
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+          <span className="font-semibold">Featured Story</span>
+            </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          {featuredBlogs.map((blog) => (
+            <Link
+              key={blog.id}
+              href={`/blogs/${createSlug(blog.title)}-${blog.id}`}
+              className="block mb-16 group"
+            >
+              <div className="bg-white rounded-3xl shadow-xl overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                <div className="flex flex-col lg:flex-row">
+                  
+                  {/* Blog Image */}
+                  <div className="lg:w-1/2 relative overflow-hidden">
+                    <img
+                      src={blog.featuredImage || "/default-blog.jpg"}
+                      alt={blog.title}
+                      className="w-full h-80 lg:h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
 
-                  <div className="bg-white rounded-2xl shadow-2xl overflow-hidden transform group-hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
-                      <div className="flex flex-col lg:flex-row">
-                      {/* Content Section */}
-                      <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
-                        <div className="space-y-6">
-                          {/* Category & Reading Time */}
-                          <div className="flex items-center space-x-4">
-                            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                              {blog.category || 'Healthcare'}
-                            </span>
-                            <div className="flex items-center text-gray-500">
-                              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              <span className="text-sm">{Math.ceil(blog.content.length / 500)} min read</span>
-                            </div>
-                          </div>
-                          
-                          {/* Title */}
-                          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight group-hover:text-blue-600 transition-colors duration-300">
-                            {blog.title}
-                          </h2>
-                          
-                          {/* Description */}
-                          <p className="text-lg text-gray-600 leading-relaxed">
-                            {blog.excerpt || blog.content.substring(0, 200) + '...'}
-                          </p>
-                          
-                          {/* Author Info */}
-                          <div className="flex items-center space-x-3">
-                                                      <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background: 'linear-gradient(to right, var(--primary-color), var(--primary-dark))'}}>
-                            <span className="text-white font-semibold text-sm">
-                              {(blog.author?.name || 'A').charAt(0).toUpperCase()}
-                            </span>
-                          </div>
-                            <div>
-                              <p className="font-medium text-gray-900">{blog.author?.name || 'Admin'}</p>
-                              <p className="text-sm text-gray-500">{blog.author?.role || 'Healthcare Writer'}</p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* CTA Button */}
-                        <div className="mt-8">
-                          <button className="group/btn text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center" style={{background: 'linear-gradient(to right, var(--primary-color), var(--primary-dark))'}}>
-                            <span>Read Full Story</span>
-                            <svg className="w-5 h-5 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </button>
-                        </div>
+                  {/* Blog Content */}
+                  <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center space-y-5">
+                    <div className="flex items-center gap-3 text-sm">
+                      <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
+                        {blog.category || 'Healthcare'}
+                      </span>
+                      <span className="text-gray-500 flex items-center">
+                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {Math.ceil(blog.content.length / 500)} min read
+                      </span>
+                    </div>
+
+                    <h2 className="text-3xl font-bold text-gray-900 leading-tight group-hover:text-blue-700 transition-colors duration-300">
+                      {blog.title}
+                    </h2>
+
+                    <p className="text-gray-600 leading-relaxed line-clamp-3">
+                      {blog.excerpt || blog.content.substring(0, 200) + '...'}
+                    </p>
+
+                    <div className="flex items-center gap-3 mt-4">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white font-semibold">
+                        {(blog.author?.name || 'A').charAt(0).toUpperCase()}
                       </div>
-                      
-                      {/* Image Section */}
-                      <div className="lg:w-1/2 relative">
-                          {blog.featuredImage ? (
-                          <div className="h-80 lg:h-full">
-                            <Image
-                              src={blog.featuredImage}
-                              alt={blog.title}
-                              width={600}
-                              height={400}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                            />
-                            {/* Overlay Gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          </div>
-                        ) : (
-                          <div className="h-80 lg:h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                            <div className="text-center">
-                              <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                              </div>
-                              <p className="text-gray-500 font-medium">Featured Image</p>
-                            </div>
-                          </div>
-                        )}
-                        </div>
+                      <div>
+                        <p className="font-medium text-gray-900">{blog.author?.name || 'Admin'}</p>
+                        <p className="text-sm text-gray-500">{blog.author?.role || 'Healthcare Writer'}</p>
                       </div>
                     </div>
+
+                    <div className="pt-6">
+                      <span className="inline-flex items-center text-blue-600 font-medium group-hover:underline">
+                        Read Full Story
+                        <svg
+                          className="w-5 h-5 ml-1 transition-transform duration-300 group-hover:translate-x-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
-                </Link>
-              ))}
-          </div>
-        </section>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
       ) : (
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4">
@@ -685,7 +831,7 @@ export default function Home() {
                           </div>
                         </div>
                         {/* Read More Button */}
-                        <div className="flex items-center text-white px-4 py-2 rounded-xl font-bold text-sm shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-500" style={{backgroundColor: 'var(--primary-accent)'}} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-accent-light)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-accent)'}>
+                        <div className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 text-white px-8 py-3 rounded-full shadow-lg flex items-center gap-2 backdrop-blur-md border border-white/20transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-blue-500/40 group" style={{backgroundColor: 'var(--primary-accent)'}} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-accent-light)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-accent)'}>
                           <span className="mr-2">Read</span>
                           <svg className="w-4 h-4 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -776,6 +922,91 @@ export default function Home() {
           </div>
         </div>
       </div>
+      
+{/* Featured Card + Subscribe Section */}
+<section id="subscribe-section" className="relative py-20 bg-white/40 backdrop-blur-md overflow-hidden">
+  <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[2fr_1fr] gap-12 items-center">
+    
+    {/* Auto-Sliding Featured Blog Card */}
+    <div className="relative glassy-card rounded-[3rem] overflow-hidden shadow-2xl transition-all duration-700">
+      {blogs.length > 0 && (
+        <div className="relative h-[480px]">
+          <Image
+            src={blogs[currentIndex]?.featuredImage || '/default.jpg'}
+            alt={blogs[currentIndex]?.title || 'Featured Blog'}
+            fill
+            className="object-cover transition-transform duration-700 hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-[3rem]" />
+          <div className="absolute bottom-0 left-0 p-8 text-white z-10">
+            <span className="bg-blue-600/80 px-3 py-1 text-xs rounded-full font-medium">
+              {blogs[currentIndex]?.category || 'Health'}
+            </span>
+            <h3 className="text-4xl font-bold mt-4 mb-2 leading-tight">
+              {blogs[currentIndex]?.title || 'Featured Insight'}
+            </h3>
+            <p className="text-blue-100 line-clamp-3 mb-4">
+              {blogs[currentIndex]?.excerpt ||
+                blogs[currentIndex]?.content?.substring(0, 150) + '...'}
+            </p>
+            <Link
+              href={`/blogs/${createSlug(blogs[currentIndex]?.title)}-${blogs[currentIndex]?.id}`}
+              className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 text-white px-8 py-3 rounded-full shadow-lg flex items-center gap-2 backdrop-blur-md border border-white/20transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-blue-500/40 group"
+            >
+              Read More →
+            </Link>
+          </div>
+        </div>
+      )}
+      {/* Progress Dots */}
+      <div className="flex justify-center mt-4 space-x-2">
+        {blogs.slice(0, 3).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              currentIndex === index ? 'bg-blue-600 w-5' : 'bg-blue-300'
+            }`}
+          ></button>
+        ))}
+      </div>
+    </div>
+
+    {/* Slim Vertical Subscribe Box */}
+    <div className="bg-gradient-to-br from-blue-600 to-purple-700 text-white rounded-2xl shadow-2xl p-10 flex flex-col justify-center h-[480px]">
+      <div className="relative z-10">
+        <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
+        <p className="text-blue-100 mb-6 text-sm leading-relaxed">
+          Subscribe to get the latest healthcare insights and wellness updates straight to your inbox.
+        </p>
+        <form onSubmit={handleSubscribeSubmit} className="flex flex-col gap-4">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email..."
+            required
+            className="px-4 py-3 rounded-xl text-gray-900 placeholder-black focus:ring-2 focus:ring-blue-400 outline-none"/>
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-white text-blue-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 hover:shadow-lg transition-all duration-300 disabled:opacity-60" >
+            {loading ? 'Subscribing...' : 'Subscribe'}
+          </button>
+        </form>
+        {success && (
+          <p className="text-green-300 text-sm mt-5 animate-fade-in">
+            ✅ You’ve successfully subscribed!
+            <br />
+            Thank you 💙
+            <br />
+            <span className="text-white font-medium">— Aarogya Aadhar Team</span>
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Main Footer */}
       <footer className="bg-white py-16 relative">

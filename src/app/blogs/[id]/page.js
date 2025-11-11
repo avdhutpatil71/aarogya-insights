@@ -6,9 +6,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { extractIdFromSlug } from '@/lib/slug'
 import Navbar from '@/components/Navbar'
+import CommentBox from "@/components/CommentBox";
 
 export default function BlogDetail() {
   const params = useParams()
+  const id = params.id; 
   const router = useRouter()
   const [blog, setBlog] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -107,19 +109,38 @@ export default function BlogDetail() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <Navbar variant="blog" />
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <header className="sticky top-0 z-40 bg-white/30 backdrop-blur-lg border-b border-white/20 shadow-md">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            {/* Back Button */}
-            <Link 
-              href="/"
-              className="text-btn bg-gradient-to-r from-gray-600 to-gray-700 text-white px-4 py-2 rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all font-semibold shadow-md hover:shadow-lg flex items-center"
+       {/* Back Button */}
+      <Link href="/"
+             className="group relative flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold 
+             text-white bg-gradient-to-r from-blue-600/80 to-purple-600/80
+             border border-white/20 shadow-md backdrop-blur-md
+             transition-all duration-300 hover:scale-105 hover:shadow-lg hover:from-blue-500 hover:to-purple-500"
+>
+       {/* Left Arrow Icon */}
+       <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 border border-white/10 group-hover:bg-white/30 transition-all duration-300">
+           <svg
+                className="w-4 h-4 text-white"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
             >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Back to Home
-            </Link>
+                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+       </span>
+
+     <span className="relative z-10 tracking-wide">
+         Back to Home
+      </span>
+
+        {/* Shine Effect */}
+         <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent 
+                   opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-xl blur-sm"></span>
+      </Link>
+
           </div>
         </div>
       </header>
@@ -233,6 +254,11 @@ export default function BlogDetail() {
             </div>
           </div>
         </div>
+
+      {/* Comment Section */}
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg p-6 border border-gray-200 mb-12">
+              < CommentBox postId={id} />
+      </div>
 
         {/* Additional Information */}
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg p-6 border border-gray-200">

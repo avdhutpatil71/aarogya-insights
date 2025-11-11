@@ -1,16 +1,25 @@
 'use client'
-
-import Link from 'next/link'
-import Image from 'next/image'
-import { useSession } from 'next-auth/react'
-import { useState } from 'react'
-import ProfileDropdown from './ProfileDropdown'
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { useSession } from "next-auth/react"
+import ProfileDropdown from "./ProfileDropdown"
 
 export default function Navbar({ variant = 'default' }) {
   const { data: session } = useSession()
   const [showLoginDropdown, setShowLoginDropdown] = useState(false)
   const [showRegisterDropdown, setShowRegisterDropdown] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   // Simplified navbar for blog posts
   if (variant === 'blog') {
@@ -59,7 +68,14 @@ export default function Navbar({ variant = 'default' }) {
   }
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-200/50">
+   <nav
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+          isScrolled
+              ? "backdrop-blur-2xl bg-white/10 border border-white/20 shadow-lg"
+        : "bg-transparent"
+        }`}
+   >
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-6 md:py-6">
           {/* Left Side - Dual Logos */}
@@ -127,7 +143,37 @@ export default function Navbar({ variant = 'default' }) {
               <span className="relative z-10">Articles</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300 -z-10"></div>
             </button>
-            
+
+             {/* Subscribe Now Button */}
+            <button
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.location.href = "/#subscribe-section";
+                }
+              }}
+              className="relative text-lg font-bold transition-all duration-300 hover:scale-105 group bg-transparent border-0 cursor-pointer"
+              style={{ color: "var(--primary-accent)" }}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 text-blue-600 transition-transform duration-300 group-hover:scale-110"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Subscribe Now
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300 -z-10"></div>
+            </button>
+
             {!session ? (
               <>
                 {/* Login Dropdown */}
@@ -219,7 +265,7 @@ export default function Navbar({ variant = 'default' }) {
                 }}
                 className="block px-6 py-3 text-lg font-bold text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 rounded-xl mx-4 w-full text-left bg-transparent border-0 cursor-pointer"
                 style={{color: 'var(--primary-accent)'}}
-              >
+                 >
                 <div className="flex items-center">
                   <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
