@@ -16,7 +16,6 @@ export default function Navbar({ variant = 'default' }) {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -77,7 +76,7 @@ export default function Navbar({ variant = 'default' }) {
    >
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-6 md:py-6">
+        <div className="flex items-center justify-between py-3 md:py-3">
           {/* Left Side - Dual Logos */}
           <div className="flex items-center space-x-6 md:space-x-10">
             {/* LIVO AAROGYA AADHAR™ Logo */}
@@ -87,31 +86,13 @@ export default function Navbar({ variant = 'default' }) {
                 <Image 
                   src="/images/logo1.png" 
                   alt="LIVO AAROGYA AADHAR™ Logo" 
-                  width={140} 
-                  height={140}
+                  width={100} 
+                  height={100}
                   className="relative w-28 h-auto md:w-32 md:h-auto group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 group-hover:drop-shadow-xl"
                 />
               </div>
-            </Link>
-
-            {/* Vertical Separator - Hidden on mobile */}
-            <div className="hidden md:block w-px h-20 bg-gradient-to-b from-transparent via-gray-300 to-transparent"></div>
-
-            {/* Aarogya Dhan™ Logo - Hidden on mobile */}
-            <Link href="/" className="hidden md:flex items-center group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <Image 
-                  src="/images/logo2.png" 
-                  alt="Aarogya Dhan™ Logo" 
-                  width={160} 
-                  height={160}
-                  className="relative h-20 md:h-24 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 group-hover:drop-shadow-xl"
-                />
-              </div>
-            </Link>
-          </div>
-
+            </Link>      
+           </div>
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
@@ -129,7 +110,7 @@ export default function Navbar({ variant = 'default' }) {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {/* Articles Button */}
             <button 
               onClick={() => {
@@ -253,7 +234,7 @@ export default function Navbar({ variant = 'default' }) {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200/50 py-6 bg-white/80 backdrop-blur-md">
+          <div className="md:hidden border-t border-gray-200/50 py-3 bg-white/80 backdrop-blur-md">
             <div className="space-y-4">
               {/* Articles Button for Mobile */}
               <button 

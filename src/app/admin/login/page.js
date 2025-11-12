@@ -5,6 +5,7 @@ import { signIn, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Navbar from '@/components/Navbar'
+import Link from "next/link";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
@@ -121,24 +122,24 @@ export default function AdminLogin() {
             </button>
           </div>
 
-          <div className="text-center space-y-2">
-            <div>
-              <a 
-                href="/admin/signup" 
-                className="text-body-small text-green-600 hover:text-green-500 font-medium"
-              >
-                Create Admin Account
-              </a>
+            <div className="text-center space-y-2">
+              <div>
+                <Link 
+                  href="/admin/signup" 
+                  className="text-body-small text-green-600 hover:text-green-500 font-medium"
+                >
+                  Create Admin Account
+                </Link>
+              </div>
+              <div>
+                <Link 
+                  href="/" 
+                  className="text-body-small text-blue-600 hover:text-blue-500"
+                >
+                  ← Back to Home
+                </Link>
+              </div>
             </div>
-            <div>
-              <a 
-                href="/" 
-                className="text-body-small text-blue-600 hover:text-blue-500"
-              >
-                ← Back to Home
-              </a>
-            </div>
-          </div>
         </form>
         </div>
       </div>
