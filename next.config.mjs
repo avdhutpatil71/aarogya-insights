@@ -25,10 +25,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'via.placeholder.com',
-      }
+      },
     ],
   },
-   // ✅ Prevent build from failing due to ESLint warnings
+
+  // ✅ Prevent Vercel build from failing on ESLint warnings
   eslint: {
     ignoreDuringBuilds: true,
   },
