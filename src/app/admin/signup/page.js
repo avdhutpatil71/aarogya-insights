@@ -191,8 +191,7 @@ export default function AdminSignup() {
           </div>
 
           <div className="text-center">
-           import Link from "next/link";
-
+            
             <Link 
               href="/admin/login" 
               className="text-sm text-blue-600 hover:text-blue-500"

@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Navbar from '@/components/Navbar'
+import Link from "next/link";
 
 export default function BloggerLogin() {
   const [email, setEmail] = useState('')
@@ -131,12 +132,10 @@ export default function BloggerLogin() {
               </a>
             </div>
             <div>
-              <a 
-                href="/" 
-                className="text-body-small text-blue-600 hover:text-blue-500"
-              >
-                ← Back to Home
-              </a>
+             <Link href="/" className="text-body-small  text-blue-600 hover:text-blue-500">
+                Back to Home
+              </Link>
+
             </div>
           </div>
         </form>
