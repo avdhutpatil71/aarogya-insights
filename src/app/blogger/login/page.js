@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Link from "next/link";
-
+import { Suspense } from "react";
 export default function BloggerLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -39,6 +39,20 @@ export default function BloggerLogin() {
       setLoading(false)
     }
   }
+
+  function LoginContent() {
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+
+  return (
+    <div className="login-container">
+      <h1>Login to Blogger</h1>
+      {error && <p className="text-red-500">{error}</p>}
+      {/* your form content */}
+    </div>
+  );
+}
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
