@@ -67,240 +67,235 @@ export default function Navbar({ variant = 'default' }) {
   }
 
   return (
-   <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled
-              ? "backdrop-blur-2xl bg-white/10 border border-white/20 shadow-lg"
-        : "bg-transparent"
-        }`}
-   >
+<nav
+  className={`sticky top-0 z-50 transition-all duration-300 ${
+    isScrolled
+      ? "backdrop-blur-2xl bg-white/10 border-b border-white/20 shadow-lg"
+      : "backdrop-blur-xl bg-white/5"
+  }`}
+>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-between h-16">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-3 md:py-3">
-          {/* Left Side - Dual Logos */}
-          <div className="flex items-center space-x-6 md:space-x-10">
-            {/* LIVO AAROGYA AADHAR™ Logo */}
-            <Link href="/" className="flex items-center group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <Image 
-                  src="/images/logo1.png" 
-                  alt="LIVO AAROGYA AADHAR™ Logo" 
-                  width={100} 
-                  height={100}
-                  className="relative w-28 h-auto md:w-32 md:h-auto group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 group-hover:drop-shadow-xl"
-                />
-              </div>
-            </Link>      
-           </div>
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
+      {/* LEFT: LOGO */}
+      <Link href="/" className="flex items-center gap-3 group cursor-pointer">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            {/* Articles Button */}
-            <button 
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.location.href = '/#recent-articles';
-                }
-              }}
-              className="relative text-lg font-bold transition-all duration-300 hover:scale-105 group bg-transparent border-0 cursor-pointer"
-              style={{color: 'var(--primary-accent)'}}
-            >
-              <span className="relative z-10">Articles</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300 -z-10"></div>
-            </button>
-
-             {/* Subscribe Now Button */}
-            <button
-              onClick={() => {
-                if (typeof window !== "undefined") {
-                  window.location.href = "/#subscribe-section";
-                }
-              }}
-              className="relative text-lg font-bold transition-all duration-300 hover:scale-105 group bg-transparent border-0 cursor-pointer"
-              style={{ color: "var(--primary-accent)" }}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5 text-blue-600 transition-transform duration-300 group-hover:scale-110"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                Subscribe Now
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300 -z-10"></div>
-            </button>
-
-            {!session ? (
-              <>
-                {/* Login Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => setShowLoginDropdown(!showLoginDropdown)}
-                    className="flex items-center space-x-2 text-lg font-bold transition-all duration-300 hover:scale-105 group"
-                    style={{color: 'var(--primary-accent)'}}
-                  >
-                    <span>Login</span>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showLoginDropdown && (
-                    <div className="absolute top-full right-0 mt-3 w-52 bg-white/90 backdrop-blur-md rounded-xl shadow-2xl border border-gray-200/50 py-3 z-50 transform transition-all duration-300 scale-100 opacity-100">
-                      <Link href="/admin/login" className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 rounded-lg mx-2">
-                        <div className="flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          Admin Login
-                        </div>
-                      </Link>
-                      <Link href="/blogger/login" className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 rounded-lg mx-2">
-                        <div className="flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
-                          Blogger Login
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-
-                {/* Register Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => setShowRegisterDropdown(!showRegisterDropdown)}
-                    className="flex items-center space-x-2 text-lg font-bold transition-all duration-300 hover:scale-105 group"
-                    style={{color: 'var(--primary-accent)'}}
-                  >
-                    <span>Register</span>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showRegisterDropdown && (
-                    <div className="absolute top-full right-0 mt-3 w-52 bg-white/90 backdrop-blur-md rounded-xl shadow-2xl border border-gray-200/50 py-3 z-50 transform transition-all duration-300 scale-100 opacity-100">
-                      <Link href="/admin/signup" className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 rounded-lg mx-2">
-                        <div className="flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          Admin Signup
-                        </div>
-                      </Link>
-                      <Link href="/blogger/signup" className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 rounded-lg mx-2">
-                        <div className="flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
-                          Blogger Signup
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              /* Profile Dropdown for logged-in users */
-              <ProfileDropdown />
-            )}
-          </div>
+          <Image
+            src="/images/logo1.png"
+            alt="Aarogya Logo"
+            width={110}
+            height={50}
+            className="w-28 h-auto transition-transform duration-300 group-hover:scale-110 group-hover:drop-shadow-xl"
+          />
         </div>
+      </Link>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200/50 py-3 bg-white/80 backdrop-blur-md">
-            <div className="space-y-4">
-              {/* Articles Button for Mobile */}
-              <button 
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  if (typeof window !== 'undefined') {
-                    window.location.href = '/#recent-articles';
-                  }
-                }}
-                className="block px-6 py-3 text-lg font-bold text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 rounded-xl mx-4 w-full text-left bg-transparent border-0 cursor-pointer"
-                style={{color: 'var(--primary-accent)'}}
-                 >
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Articles
-                </div>
-              </button>
-              
-              {!session ? (
-                <>
-                  <div className="space-y-2 pt-2">
-                    <h3 className="text-base font-bold text-gray-900 px-6">Login</h3>
-                    <Link 
-                      href="/admin/login" 
-                      className="block px-6 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 rounded-lg mx-2"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Admin Login
-                    </Link>
-                    <Link 
-                      href="/blogger/login" 
-                      className="block px-6 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 rounded-lg mx-2"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Blogger Login
-                    </Link>
-                  </div>
-                  <div className="space-y-2 pt-2">
-                    <h3 className="text-base font-bold text-gray-900 px-6">Register</h3>
-                    <Link 
-                      href="/admin/signup" 
-                      className="block px-6 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 rounded-lg mx-2"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Admin Signup
-                    </Link>
-                    <Link 
-                      href="/blogger/signup" 
-                      className="block px-6 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 rounded-lg mx-2"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Blogger Signup
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                <div className="px-6">
-                  <ProfileDropdown />
-                </div>
-              )}
-            </div>
-          </div>
+      {/* DESKTOP NAVIGATION */}
+      <div className="hidden md:flex items-center gap-8">
+
+        {/* Articles */}
+        <button
+          onClick={() => (window.location.href = "/#recent-articles")}
+          className="text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer"
+        >
+          Articles
+        </button>
+
+        {/* Subscribe */}
+        <button
+          onClick={() => (window.location.href = "/#subscribe-section")}
+          className="text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer"
+        >
+          Subscribe
+        </button>
+
+        {/* AUTH BLOCK */}
+        {!session ? (
+<>
+  {/* LOGIN (click dropdown) */}
+  <div className="relative cursor-pointer">
+    <button
+      onClick={() => setShowLoginDropdown(!showLoginDropdown)}
+      className="flex items-center gap-1 text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer"
+    >
+      Login
+      <svg
+        className={`w-4 h-4 transition-transform duration-300 ${
+          showLoginDropdown ? "rotate-180" : "rotate-0"
+        }`}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    {showLoginDropdown && (
+      <div className="absolute top-full right-0 mt-3 w-48 bg-white/70 backdrop-blur-xl shadow-xl rounded-xl border border-white/20 py-2 z-50 transition-all duration-300">
+        <Link
+          href="/admin/login"
+          className="block px-4 py-2 text-sm hover:bg-secondary/40 rounded-lg cursor-pointer"
+        >
+          Admin Login
+        </Link>
+        <Link
+          href="/blogger/login"
+          className="block px-4 py-2 text-sm hover:bg-secondary/40 rounded-lg cursor-pointer"
+        >
+          Blogger Login
+        </Link>
+
+         <Link
+        href="/super_admin/login"
+        className="block px-4 py-2 text-sm font-medium text-primary hover:bg-primary/20 rounded-lg cursor-pointer"
+      >
+        Super Admin Login
+      </Link>
+
+      </div>
+    )}
+  </div>
+
+  {/* REGISTER (click dropdown) */}
+  <div className="relative cursor-pointer">
+    <button
+      onClick={() => setShowRegisterDropdown(!showRegisterDropdown)}
+      className="flex items-center gap-1 text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer"
+    >
+      Register
+      <svg
+        className={`w-4 h-4 transition-transform duration-300 ${
+          showRegisterDropdown ? "rotate-180" : "rotate-0"
+        }`}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    {showRegisterDropdown && (
+      <div className="absolute top-full right-0 mt-3 w-48 bg-white/70 backdrop-blur-xl shadow-xl rounded-xl border border-white/20 py-2 z-50 transition-all duration-300">
+        <Link
+          href="/admin/signup"
+          className="block px-4 py-2 text-sm hover:bg-secondary/40 rounded-lg cursor-pointer"
+        >
+          Admin Signup
+        </Link>
+        <Link
+          href="/blogger/signup"
+          className="block px-4 py-2 text-sm hover:bg-secondary/40 rounded-lg cursor-pointer"
+        >
+          Blogger Signup
+        </Link>
+      </div>
+    )}
+  </div>
+</>
+        ) : (
+          <ProfileDropdown />
         )}
       </div>
-    </nav>
+
+      {/* MOBILE MENU BUTTON */}
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="md:hidden p-2 hover:bg-white/20 backdrop-blur-md rounded-lg transition-colors cursor-pointer"
+      >
+        {isMobileMenuOpen ? (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor">
+            <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor">
+            <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        )}
+      </button>
+    </div>
+
+    {/* MOBILE MENU */}
+    {isMobileMenuOpen && (
+      <nav className="md:hidden flex flex-col gap-3 border-t border-white/20 pt-4 pb-4 bg-white/40 backdrop-blur-2xl">
+
+        <button
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+            window.location.href = "/#recent-articles";
+          }}
+          className="text-sm font-medium text-foreground hover:text-primary py-2 text-left px-2 cursor-pointer"
+        >
+          Articles
+        </button>
+
+        <button
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+            window.location.href = "/#subscribe-section";
+          }}
+          className="text-sm font-medium text-primary hover:text-primary/80 py-2 text-left px-2 cursor-pointer"
+        >
+          Subscribe
+        </button>
+
+        {!session ? (
+          <>
+            <p className="px-2 pt-2 text-xs font-semibold text-muted-foreground">Login</p>
+
+            <Link
+              href="/admin/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm py-2 px-2 hover:bg-secondary/40 rounded-lg cursor-pointer"
+            >
+              Admin Login
+            </Link>
+
+            <Link
+              href="/blogger/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm py-2 px-2 hover:bg-secondary/40 rounded-lg cursor-pointer"
+            >
+              Blogger Login
+            </Link>
+            
+             <Link
+              href="/blogger/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm py-2 px-2 hover:bg-secondary/40 rounded-lg cursor-pointer"
+            >
+              Super_Admin Login
+            </Link>
+
+            <p className="px-2 pt-4 text-xs font-semibold text-muted-foreground">Register</p>
+
+            <Link
+              href="/admin/signup"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm py-2 px-2 hover:bg-secondary/40 rounded-lg cursor-pointer"
+            >
+              Admin Signup
+            </Link>
+
+            <Link
+              href="/blogger/signup"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm py-2 px-2 hover:bg-secondary/40 rounded-lg cursor-pointer"
+            >
+              Blogger Signup
+            </Link>
+          </>
+        ) : (
+          <ProfileDropdown />
+        )}
+      </nav>
+    )}
+  </div>
+</nav>
   )
 }

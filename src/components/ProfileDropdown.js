@@ -235,6 +235,17 @@ export default function ProfileDropdown() {
                   <span className="font-medium">Blogger Sign In</span>
                 </Link>
 
+                 <Link 
+                  href="/blogger/login"
+                  className="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <svg className="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  <span className="font-medium">Blogger Sign In</span>
+                </Link>
+
                 {/* Create Account Options */}
                 <div className="border-t border-gray-100 mt-2 pt-2">
                   <div className="px-3 py-2">

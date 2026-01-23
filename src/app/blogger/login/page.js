@@ -40,18 +40,7 @@ export default function BloggerLogin() {
     }
   }
 
-  function LoginContent() {
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error");
 
-  return (
-    <div className="login-container">
-      <h1>Login to Blogger</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      {/* your form content */}
-    </div>
-  );
-}
   
 
   return (
