@@ -93,7 +93,7 @@ export default function BlogDetail() {
           <p className="text-body text-gray-600 mb-8">{error || 'The blog post you are looking for does not exist.'}</p>
           <Link 
             href="/"
-            className="text-btn bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold shadow-lg hover:shadow-xl"
+            className="text-btn bg-[#5678FF] text-white px-6 py-3 rounded-lg hover:bg-[#4567EE] transition-all font-semibold shadow-lg hover:shadow-xl"
           >
             ← Back to Home
           </Link>
@@ -115,9 +115,9 @@ export default function BlogDetail() {
        {/* Back Button */}
       <Link href="/"
              className="group relative flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold 
-             text-white bg-gradient-to-r from-blue-600/80 to-purple-600/80
+             text-white bg-[#5678FF]
              border border-white/20 shadow-md backdrop-blur-md
-             transition-all duration-300 hover:scale-105 hover:shadow-lg hover:from-blue-500 hover:to-purple-500"
+             transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-[#4567EE]"
 >
        {/* Left Arrow Icon */}
        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 border border-white/10 group-hover:bg-white/30 transition-all duration-300">

@@ -15,6 +15,8 @@ export default function BloggerSignup() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -70,119 +72,154 @@ export default function BloggerSignup() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Navbar variant="blogger" />
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full">
-        {/* Logo/Header Section */}
-        <div className="text-center mb-8">
-          <div className="mx-auto h-16 w-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl transform hover:rotate-6 transition-transform">
-            <svg className="h-10 w-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-            </svg>
+        <div className="max-w-md w-full space-y-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-[#5B7CFD] tracking-tight mb-2">
+              Aarogya Aadhar
+            </h1>
+            <p className="text-2xl md:text-3xl font-semibold text-[#5B7CFD]">
+              Create Blogger Account
+            </p>
           </div>
-          <h2 className="mt-6 text-center text-heading-1 text-gray-900 font-bold">
-            Join as a Blogger
-          </h2>
-          <p className="mt-2 text-center text-body text-gray-600">
-            Create your account and start sharing your stories
-          </p>
-        </div>
-        
-        {/* Signup Form Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8 border-t-4 border-purple-500">
-          <form className="space-y-5" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="name" className="block text-label font-medium text-gray-700 mb-2">
-                Full Name
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  className="text-body appearance-none block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
-                  placeholder="Enter your full name"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
 
-            <div>
-              <label htmlFor="email" className="block text-label font-medium text-gray-700 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                  </svg>
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label htmlFor="name" className="block text-lg font-bold text-[#1E2A5A]">
+                  Full Name*
+                </label>
+                <div className="relative flex items-center bg-[#EFF6FF] rounded-full px-5 py-3">
+                  <div className="flex-shrink-0 mr-3">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="5" width="18" height="14" rx="2" stroke="#94A3B8" />
+                      <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="#94A3B8" />
+                      <path d="M20 21v-2a4 4 0 0 0-3-3.87" stroke="#94A3B8" />
+                      <path d="M4 21v-2a4 4 0 0 1 3-3.87" stroke="#94A3B8" />
+                    </svg>
+                  </div>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    className="flex-1 bg-transparent border-none p-0 text-gray-900 placeholder-transparent focus:ring-0 sm:text-base font-medium h-auto focus:outline-none"
+                    placeholder="Full Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
                 </div>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="text-body appearance-none block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
               </div>
-            </div>
 
-            <div>
-              <label htmlFor="password" className="block text-label font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-lg font-bold text-[#1E2A5A]">
+                  Email Address*
+                </label>
+                <div className="relative flex items-center bg-[#EFF6FF] rounded-full px-5 py-3">
+                  <div className="flex-shrink-0 mr-3">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="5" width="18" height="14" rx="2" stroke="#94A3B8" />
+                      <path d="M3 7l9 6 9-6" stroke="#94A3B8" />
+                    </svg>
+                  </div>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className="flex-1 bg-transparent border-none p-0 text-gray-900 placeholder-transparent focus:ring-0 sm:text-base font-medium h-auto focus:outline-none"
+                    placeholder="Email Address"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
                 </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="text-body appearance-none block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
-                  placeholder="Create a password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
               </div>
-              <p className="mt-1 text-caption text-gray-500">Minimum 6 characters</p>
-            </div>
 
-            <div>
-              <label htmlFor="confirmPassword" className="block text-label font-medium text-gray-700 mb-2">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+              <div className="space-y-2">
+                <label htmlFor="password" className="block text-lg font-bold text-[#1E2A5A]">
+                  Password*
+                </label>
+                <div className="relative flex items-center bg-[#EFF6FF] rounded-full px-5 py-3">
+                  <div className="flex-shrink-0 mr-3">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#94A3B8" />
+                      <path d="M7 11V7a5 5 0 0110 0v4" stroke="#94A3B8" />
+                    </svg>
+                  </div>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    className="flex-1 bg-transparent border-none p-0 text-gray-900 placeholder-transparent focus:ring-0 sm:text-base font-bold h-auto focus:outline-none tracking-widest"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <div className="flex-shrink-0 ml-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="flex items-center justify-center text-[#94A3B8] hover:text-gray-600 focus:outline-none"
+                    >
+                      {showPassword ? (
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  className="text-body appearance-none block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
-                  placeholder="Confirm your password"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="confirmPassword" className="block text-lg font-bold text-[#1E2A5A]">
+                  Confirm Password*
+                </label>
+                <div className="relative flex items-center bg-[#EFF6FF] rounded-full px-5 py-3">
+                  <div className="flex-shrink-0 mr-3">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#94A3B8" />
+                      <path d="M7 11V7a5 5 0 0110 0v4" stroke="#94A3B8" />
+                    </svg>
+                  </div>
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    required
+                    className="flex-1 bg-transparent border-none p-0 text-gray-900 placeholder-transparent focus:ring-0 sm:text-base font-bold h-auto focus:outline-none tracking-widest"
+                    placeholder="Confirm Password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                  />
+                  <div className="flex-shrink-0 ml-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="flex items-center justify-center text-[#94A3B8] hover:text-gray-600 focus:outline-none"
+                    >
+                      {showConfirmPassword ? (
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -197,81 +234,41 @@ export default function BloggerSignup() {
               </div>
             )}
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="text-btn-large group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
-              >
-                {loading ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Creating Account...
-                  </>
-                ) : (
-                  'Create Blogger Account'
-                )}
-              </button>
+            <div className="space-y-8 pt-2">
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-12 py-3 bg-[#5B7CFD] text-white text-lg font-bold rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  {loading ? 'Creating Account...' : 'Create Blogger Account'}
+                </button>
+              </div>
+
+              <div className="border-t border-gray-200"></div>
+
+              <div className="text-center space-y-4">
+                <p className="text-gray-900 font-medium text-base">
+                  Already have an account?{' '}
+                  <Link
+                    href="/blogger/login"
+                    className="text-orange-500 hover:text-orange-600 font-bold"
+                  >
+                    Login
+                  </Link>
+                </p>
+
+                <div>
+                  <Link
+                    href="/"
+                    className="text-sm text-blue-600 hover:text-blue-500"
+                  >
+                    ← Back to Home
+                  </Link>
+                </div>
+              </div>
             </div>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-body-small">
-                <span className="px-2 bg-white text-gray-500">
-                  Already have an account?
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-3">
-              <Link 
-                href="/blogger/login" 
-                className="w-full flex justify-center items-center py-3 px-4 border-2 border-purple-300 rounded-lg text-body-small font-medium text-purple-700 hover:bg-purple-50 transition-colors"
-              >
-                Sign In to Your Account
-              </Link>
-              
-              <Link 
-                href="/" 
-                className="w-full flex justify-center items-center py-3 px-4 border-2 border-gray-300 rounded-lg text-body-small font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                ← Back to Home
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Benefits Section */}
-        <div className="mt-8 bg-white/50 backdrop-blur-sm rounded-xl p-6 shadow-md">
-          <h3 className="text-heading-4 text-gray-900 mb-4 text-center">Why Join as a Blogger?</h3>
-          <div className="space-y-3">
-            <div className="flex items-start">
-              <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <p className="text-body-small text-gray-700">Share your knowledge with thousands of readers</p>
-            </div>
-            <div className="flex items-start">
-              <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <p className="text-body-small text-gray-700">Easy-to-use dashboard for managing your posts</p>
-            </div>
-            <div className="flex items-start">
-              <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <p className="text-body-small text-gray-700">Build your personal brand and online presence</p>
-            </div>
-          </div>
-        </div>
         </div>
       </div>
     </div>

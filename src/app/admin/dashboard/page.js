@@ -38,7 +38,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (status === 'loading') return
-    
+
     if (!session || session.user.role !== 'admin') {
       router.push('/admin/login')
       return
@@ -51,7 +51,7 @@ export default function AdminDashboard() {
     try {
       const response = await fetch('/api/admin/blogs')
       const data = await response.json()
-      
+
       // Ensure data is always an array
       if (Array.isArray(data)) {
         setBlogs(data)
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
     e.preventDefault()
     setError('')
     setMessage('')
-    
+
     try {
       const response = await fetch('/api/blogs', {
         method: 'POST',
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
 
   const handleDeleteBlog = async (id) => {
     if (!confirm('Are you sure you want to delete this blog?')) return
-    
+
     try {
       const response = await fetch(`/api/blogs/${id}`, {
         method: 'DELETE',
@@ -148,7 +148,7 @@ export default function AdminDashboard() {
     e.preventDefault()
     setError('')
     setMessage('')
-    
+
     try {
       const response = await fetch(`/api/blogs/${editingBlog}`, {
         method: 'PATCH',
@@ -240,7 +240,7 @@ export default function AdminDashboard() {
                 <p className="text-xs text-slate-500">Administrator</p>
               </div>
               <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full md:w-auto">
-                <Link 
+                <Link
                   href="/"
                   className="px-3 py-2 text-xs md:text-sm font-medium text-blue-700 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors border border-blue-200 text-center"
                 >
@@ -263,84 +263,76 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           {/* Total Blogs */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm font-medium text-gray-600">Total Blogs</p>
-                <p className="text-2xl md:text-3xl font-bold text-gray-900">
-                  {Array.isArray(blogs) ? blogs.length : 0}
-                </p>
-              </div>
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
+              <p className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+                {Array.isArray(blogs) ? blogs.length : 0}
+              </p>
+              <p className="text-xs md:text-sm font-medium text-gray-600 uppercase tracking-wide">Total Blogs</p>
             </div>
           </div>
 
           {/* Published Blogs */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm font-medium text-gray-600">Published</p>
-                <p className="text-2xl md:text-3xl font-bold text-green-600">
-                  {Array.isArray(blogs) ? blogs.filter(blog => blog.published).length : 0}
-                </p>
-              </div>
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-full flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-full flex items-center justify-center mb-3">
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
+              <p className="text-2xl md:text-3xl font-bold text-green-600 mb-1">
+                {Array.isArray(blogs) ? blogs.filter(blog => blog.published).length : 0}
+              </p>
+              <p className="text-xs md:text-sm font-medium text-gray-600 uppercase tracking-wide">Published</p>
             </div>
           </div>
 
           {/* Draft Blogs */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm font-medium text-gray-600">Drafts</p>
-                <p className="text-2xl md:text-3xl font-bold text-yellow-600">
-                  {Array.isArray(blogs) ? blogs.filter(blog => !blog.published).length : 0}
-                </p>
-              </div>
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-3">
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </div>
+              <p className="text-2xl md:text-3xl font-bold text-yellow-600 mb-1">
+                {Array.isArray(blogs) ? blogs.filter(blog => !blog.published).length : 0}
+              </p>
+              <p className="text-xs md:text-sm font-medium text-gray-600 uppercase tracking-wide">Drafts</p>
             </div>
           </div>
           {/* Featured Blogs */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm font-medium text-gray-600">Featured</p>
-                <p className="text-2xl md:text-3xl font-bold text-purple-600">
-                  {Array.isArray(blogs) ? blogs.filter(blog => blog.featured).length : 0}
-                </p>
-              </div>
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-full flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-full flex items-center justify-center mb-3">
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               </div>
+              <p className="text-2xl md:text-3xl font-bold text-purple-600 mb-1">
+                {Array.isArray(blogs) ? blogs.filter(blog => blog.featured).length : 0}
+              </p>
+              <p className="text-xs md:text-sm font-medium text-gray-600 uppercase tracking-wide">Featured</p>
             </div>
           </div>
         </div>
 
         {/* Blog Management Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 md:mb-8 space-y-4 md:space-y-0">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Blog Management</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900">Blog Management</h2>
             <p className="text-sm text-gray-600 mt-1">Manage and create blog posts</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="text-right">
-              <div className="text-2xl font-bold text-blue-600">
+          <div className="flex items-center justify-between md:justify-end space-x-4 w-full md:w-auto">
+            <div className="text-left md:text-right">
+              <div className="text-3xl md:text-2xl font-bold text-blue-600 mb-1 md:mb-0 leading-none md:leading-8">
                 {Array.isArray(blogs) ? blogs.length : 0}
               </div>
-              <div className="text-sm text-gray-600">Total Posts</div>
+              <div className="text-xs md:text-sm text-gray-500 md:text-gray-600 font-medium md:font-normal uppercase md:normal-case tracking-wide md:tracking-normal">Total Posts</div>
             </div>
             <button
               onClick={() => setShowCreateForm(!showCreateForm)}
@@ -399,26 +391,26 @@ export default function AdminDashboard() {
             <form onSubmit={handleUpdateBlog} className="space-y-6">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
-                        Blog Title *
+                  Blog Title *
                 </label>
                 <input
                   type="text"
                   value={editBlog.title}
-                  onChange={(e) => setEditBlog({...editBlog, title: e.target.value})}
+                  onChange={(e) => setEditBlog({ ...editBlog, title: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 text-lg font-semibold bg-white text-slate-900"
                   placeholder="Enter an engaging title for your blog post..."
                   required
                 />
                 <p className="text-sm text-slate-500">This will be the main headline of your blog post</p>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
                   Blog Excerpt
                 </label>
                 <textarea
                   value={editBlog.excerpt}
-                  onChange={(e) => setEditBlog({...editBlog, excerpt: e.target.value})}
+                  onChange={(e) => setEditBlog({ ...editBlog, excerpt: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 bg-white text-slate-900"
                   rows="4"
                   placeholder="Write a brief summary or description of your blog post..."
@@ -432,7 +424,7 @@ export default function AdminDashboard() {
                 </label>
                 <textarea
                   value={editBlog.content}
-                  onChange={(e) => setEditBlog({...editBlog, content: e.target.value})}
+                  onChange={(e) => setEditBlog({ ...editBlog, content: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 bg-white text-slate-900"
                   rows="15"
                   placeholder="Write your blog post content here. You can include multiple paragraphs, details, and information..."
@@ -443,7 +435,7 @@ export default function AdminDashboard() {
 
               <ImageUpload
                 imageType="banner"
-                onImageUpload={(url) => setEditBlog({...editBlog, featuredImage: url})}
+                onImageUpload={(url) => setEditBlog({ ...editBlog, featuredImage: url })}
                 currentImage={editBlog.featuredImage}
                 label="Featured Image (Optional)"
                 description="Upload a banner image for your blog post - this is completely optional"
@@ -451,12 +443,12 @@ export default function AdminDashboard() {
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
-                        Tags (comma separated)
+                  Tags (comma separated)
                 </label>
-                      <input
-                        type="text"
+                <input
+                  type="text"
                   value={editBlog.tags}
-                  onChange={(e) => setEditBlog({...editBlog, tags: e.target.value})}
+                  onChange={(e) => setEditBlog({ ...editBlog, tags: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 bg-white text-slate-900"
                   placeholder="healthcare, innovation, technology, telemedicine"
                 />
@@ -465,12 +457,12 @@ export default function AdminDashboard() {
 
               <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
                 <h4 className="text-sm font-semibold text-slate-800 mb-4">Blog Settings</h4>
-                      <div className="flex items-center space-x-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-8">
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={editBlog.published}
-                      onChange={(e) => setEditBlog({...editBlog, published: e.target.checked})}
+                      onChange={(e) => setEditBlog({ ...editBlog, published: e.target.checked })}
                       className="mr-3 w-4 h-4 text-slate-600 border-slate-300 rounded focus:ring-slate-500"
                     />
                     <span className="text-sm font-medium text-slate-700">Published</span>
@@ -480,7 +472,7 @@ export default function AdminDashboard() {
                     <input
                       type="checkbox"
                       checked={editBlog.featured}
-                      onChange={(e) => setEditBlog({...editBlog, featured: e.target.checked})}
+                      onChange={(e) => setEditBlog({ ...editBlog, featured: e.target.checked })}
                       className="mr-3 w-4 h-4 text-slate-600 border-slate-300 rounded focus:ring-slate-500"
                     />
                     <span className="text-sm font-medium text-slate-700">Featured</span>
@@ -520,26 +512,26 @@ export default function AdminDashboard() {
             <form onSubmit={handleCreateBlog} className="space-y-6">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
-                        Blog Title *
+                  Blog Title *
                 </label>
                 <input
                   type="text"
                   value={newBlog.title}
-                  onChange={(e) => setNewBlog({...newBlog, title: e.target.value})}
+                  onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 text-lg font-semibold bg-white text-slate-900"
                   placeholder="Enter an engaging title for your blog post..."
                   required
                 />
                 <p className="text-sm text-slate-500">This will be the main headline of your blog post</p>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
                   Blog Excerpt
                 </label>
                 <textarea
                   value={newBlog.excerpt}
-                  onChange={(e) => setNewBlog({...newBlog, excerpt: e.target.value})}
+                  onChange={(e) => setNewBlog({ ...newBlog, excerpt: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 bg-white text-slate-900"
                   rows="4"
                   placeholder="Write a brief summary or description of your blog post..."
@@ -553,7 +545,7 @@ export default function AdminDashboard() {
                 </label>
                 <textarea
                   value={newBlog.content}
-                  onChange={(e) => setNewBlog({...newBlog, content: e.target.value})}
+                  onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 bg-white text-slate-900"
                   rows="15"
                   placeholder="Write your blog post content here. You can include multiple paragraphs, details, and information..."
@@ -564,7 +556,7 @@ export default function AdminDashboard() {
 
               <ImageUpload
                 imageType="banner"
-                onImageUpload={(url) => setNewBlog({...newBlog, featuredImage: url})}
+                onImageUpload={(url) => setNewBlog({ ...newBlog, featuredImage: url })}
                 currentImage={newBlog.featuredImage}
                 label="Featured Image (Optional)"
                 description="Upload a banner image for your blog post - this is completely optional"
@@ -572,12 +564,12 @@ export default function AdminDashboard() {
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
-                        Tags (comma separated)
+                  Tags (comma separated)
                 </label>
-                      <input
-                        type="text"
+                <input
+                  type="text"
                   value={newBlog.tags}
-                  onChange={(e) => setNewBlog({...newBlog, tags: e.target.value})}
+                  onChange={(e) => setNewBlog({ ...newBlog, tags: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 bg-white text-slate-900"
                   placeholder="healthcare, innovation, technology, telemedicine"
                 />
@@ -586,12 +578,12 @@ export default function AdminDashboard() {
 
               <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
                 <h4 className="text-sm font-semibold text-slate-800 mb-4">Blog Settings</h4>
-                      <div className="flex items-center space-x-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-8">
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={newBlog.published}
-                      onChange={(e) => setNewBlog({...newBlog, published: e.target.checked})}
+                      onChange={(e) => setNewBlog({ ...newBlog, published: e.target.checked })}
                       className="mr-3 w-4 h-4 text-slate-600 border-slate-300 rounded focus:ring-slate-500"
                     />
                     <span className="text-sm font-medium text-slate-700">Published</span>
@@ -601,7 +593,7 @@ export default function AdminDashboard() {
                     <input
                       type="checkbox"
                       checked={newBlog.featured}
-                      onChange={(e) => setNewBlog({...newBlog, featured: e.target.checked})}
+                      onChange={(e) => setNewBlog({ ...newBlog, featured: e.target.checked })}
                       className="mr-3 w-4 h-4 text-slate-600 border-slate-300 rounded focus:ring-slate-500"
                     />
                     <span className="text-sm font-medium text-slate-700">Featured</span>
@@ -665,11 +657,10 @@ export default function AdminDashboard() {
                           Featured
                         </span>
                       )}
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-                        blog.published 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${blog.published
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-yellow-100 text-yellow-800'
+                        }`}>
                         <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
@@ -736,11 +727,10 @@ export default function AdminDashboard() {
                     </button>
                     <button
                       onClick={() => togglePublish(blog.id, blog.published)}
-                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center space-x-2 ${
-                        blog.published
-                          ? 'text-orange-700 bg-orange-100 hover:bg-orange-200'
-                          : 'text-green-700 bg-green-100 hover:bg-green-200'
-                      }`}
+                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center space-x-2 ${blog.published
+                        ? 'text-orange-700 bg-orange-100 hover:bg-orange-200'
+                        : 'text-green-700 bg-green-100 hover:bg-green-200'
+                        }`}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
