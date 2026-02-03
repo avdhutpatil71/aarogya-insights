@@ -1,20 +1,39 @@
 import { NextResponse } from "next/server";
 import { MongoClient, ObjectId } from "mongodb";
 
-const uri = process.env.DATABASE_URL;
-const client = new MongoClient(uri);
 const dbName = "aaragya-insights";
 
+async function getClient() {
+  const uri = process.env.DATABASE_URL;
+
+  if (!uri) {
+    throw new Error("DATABASE_URL is not defined");
+  }
+
+  const client = new MongoClient(uri);
+  await client.connect();
+  return client;
+}
+
+// GET replies
 export async function GET(request) {
+  let client;
+
   try {
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get("postId");
 
-    await client.connect();
+    if (!postId) {
+      return NextResponse.json(
+        { error: "postId is required" },
+        { status: 400 }
+      );
+    }
+
+    client = await getClient();
     const db = client.db(dbName);
     const replies = db.collection("replies");
 
-    // Get all replies for a given postId
     const data = await replies
       .find({ postId })
       .sort({ createdAt: -1 })
@@ -28,11 +47,14 @@ export async function GET(request) {
       { status: 500 }
     );
   } finally {
-    await client.close();
+    if (client) await client.close();
   }
 }
 
+// POST reply
 export async function POST(request) {
+  let client;
+
   try {
     const body = await request.json();
     const { name, comment, parentId, postId } = body;
@@ -44,7 +66,7 @@ export async function POST(request) {
       );
     }
 
-    await client.connect();
+    client = await getClient();
     const db = client.db(dbName);
     const replies = db.collection("replies");
 
@@ -69,6 +91,6 @@ export async function POST(request) {
       { status: 500 }
     );
   } finally {
-    await client.close();
+    if (client) await client.close();
   }
 }
